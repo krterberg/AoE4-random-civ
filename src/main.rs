@@ -1,5 +1,7 @@
+use rand::Rng;
+use clap::{Arg, App};
 fn main() {
-    use rand::Rng;
+    
 
     let civs: Vec<&str> = vec!(
         "Rus",

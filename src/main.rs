@@ -1,7 +1,7 @@
 use rand::Rng;
 use clap::{Arg, App};
 fn main() {
-    
+
     let matches = App::new("Random civ roller")
     .version("0.2.0")
     .about("Picks a random civ from the game Age of Empires 4 for you")
@@ -29,6 +29,25 @@ fn main() {
         "Abbasid Dynasty",
         "French"
     );
+
+    let includes_args = matches.value_of("Include");
+
+    let includes = match includes_args {
+        Some(str) => str.to_uppercase(),
+        None => "RHCEDMAF".to_owned(),
+    };
+
+    let excludes_arg = matches.value_of("Exclude");
+
+    let excludes = match excludes_arg {
+        Some(str) => str.to_uppercase(),
+        None => "".to_owned(),
+    };
+
+    let selection: String = match excludes {
+        excludes if excludes.len() == 0 => includes,
+        excludes => includes.chars().filter(|c| excludes.chars().any(|e| *c!=e)).collect(),
+    };
 
     let mut rng = rand::thread_rng();
     let roll = rng.gen_range(0..civs.len());

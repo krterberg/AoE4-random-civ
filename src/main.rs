@@ -19,7 +19,7 @@ fn main() {
              .help("First letters of civs to exclude, as a string"))
     .get_matches();
 
-    let civs: Vec<&str> = vec!(
+    let mut civs: Vec<&str> = vec!(
         "Rus",
         "Holy Roman Empire",
         "Chinese",
@@ -48,6 +48,15 @@ fn main() {
         excludes if excludes.len() == 0 => includes,
         excludes => includes.chars().filter(|c| excludes.chars().any(|e| *c!=e)).collect(),
     };
+
+    civs = civs
+    .into_iter()
+    .filter(|civ| selection.chars().any(|c| civ.starts_with(c)))
+    .collect();
+
+    if civs.len() == 0 {panic!("No valid civs selected after exclusions")}
+
+    println!("You have selected the following options:\n{:?}", civs);
 
     let mut rng = rand::thread_rng();
     let roll = rng.gen_range(0..civs.len());

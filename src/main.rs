@@ -61,5 +61,5 @@ fn main() {
     let mut rng = rand::thread_rng();
     let roll = rng.gen_range(0..civs.len());
 
-    println!("{}", civs[roll]);
+    println!("Your random civ is: {}", civs[roll]);
 }
